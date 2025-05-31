@@ -41,7 +41,8 @@ jobs:
         run: |
           uv venv
           source .venv/bin/activate
-          uv pip install pytest 
+          uv add --dev pytest
+          uv add --dev pytest-cov
           uv pip install -r requirements.txt
           uv pip install -e .
       - name: Install tools
@@ -49,7 +50,6 @@ jobs:
           uv tool install ruff
           uv tool install black
           uv tool install bandit
-          uv tool install coverage
           uv tool install tavern
 
       - name: Run Ruff
@@ -58,8 +58,8 @@ jobs:
       - name: Run Black
         run: uv tool run black --check --diff .
 
-      #- name: Run Bandit scan
-      #  run: uv tool run bandit -c pyproject.toml -r .
+      - name: Run Bandit scan
+        run: uv tool run bandit -c pyproject.toml -r .
 
       - name: Install Mosquitto
         run: |
@@ -67,7 +67,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          uv run pytest
+          uv run pytest -v
 
       - name: Run integration tests
         run: |
@@ -77,5 +77,4 @@ jobs:
 
       - name: Run code coverage
         run: |
-          uv tool run coverage run -m unittest discover
-          uv tool run coverage report -m
+          uv run pytest --cov=pymqttframework

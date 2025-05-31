@@ -21,3 +21,6 @@ uv.lock
 
 # Environment variables
 .env
+
+# Coverage reports
+.coverage
