@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import contextlib
+import importlib.metadata
 import os
 import signal
 import threading
@@ -30,7 +31,7 @@ from pymqttframework.config import Config as Config
 from pymqttframework.read_only_dict import ReadOnlyDict
 
 # current MQTT-Framework version
-__version__ = "2.0.1"
+__version__ = importlib.metadata.version('pymqttframework')
 
 
 class Framework:
