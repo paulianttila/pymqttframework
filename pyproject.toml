@@ -59,3 +59,10 @@ flask-mqtt = { git = "https://github.com/stlehmann/Flask-MQTT.git", rev = "v1.2.
 
 [tool.uv]
 python-preference = "system"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  ".github/",
+  "run_integration_tests.sh",
+  "src/tests/",
+]
