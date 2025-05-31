@@ -3,8 +3,8 @@ from flask.wrappers import Response
 from prometheus_client import Counter
 from flask import render_template, jsonify
 
-from mqtt_framework.app import App, TriggerSource
-from mqtt_framework.callbacks import Callbacks
+from pymqttframework.app import App, TriggerSource
+from pymqttframework.callbacks import Callbacks
 
 
 class MyApp(App):

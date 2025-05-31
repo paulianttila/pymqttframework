@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Protocol, runtime_checkable
 
-from mqtt_framework.callbacks import Callbacks
+from pymqttframework.callbacks import Callbacks
 
 
 class TriggerSource(Enum):

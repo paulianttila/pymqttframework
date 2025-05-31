@@ -1,4 +1,4 @@
-from mqtt_framework import Config
+from pymqttframework import Config
 import ssl
 
 

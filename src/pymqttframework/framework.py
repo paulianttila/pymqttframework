@@ -25,9 +25,9 @@ from prometheus_client import CollectorRegistry, Counter, Summary
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from mqtt_framework.app import App as App, TriggerSource
-from mqtt_framework.config import Config as Config
-from mqtt_framework.read_only_dict import ReadOnlyDict
+from pymqttframework.app import App as App, TriggerSource
+from pymqttframework.config import Config as Config
+from pymqttframework.read_only_dict import ReadOnlyDict
 
 # current MQTT-Framework version
 __version__ = "2.0.1"

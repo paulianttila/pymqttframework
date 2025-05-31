@@ -2,7 +2,7 @@ import sys
 import time
 from typing import NoReturn
 
-from mqtt_framework import Framework
+from pymqttframework import Framework
 
 from myapp import MyApp
 from myconfig import MyConfig

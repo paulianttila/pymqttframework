@@ -1,4 +1,4 @@
-from mqtt_framework.app import App
+from pymqttframework.app import App
 
 
 class MyApp:
