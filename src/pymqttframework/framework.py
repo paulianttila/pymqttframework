@@ -31,7 +31,7 @@ from pymqttframework.config import Config as Config
 from pymqttframework.read_only_dict import ReadOnlyDict
 
 # current MQTT-Framework version
-__version__ = importlib.metadata.version('pymqttframework')
+__version__ = importlib.metadata.version("pymqttframework")
 
 
 class Framework:
