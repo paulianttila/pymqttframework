@@ -28,7 +28,7 @@ start_test_app() {
   # start the test app whch use framework
   echo "Start test app"
   cd src/tests/integration/testapp
-  python main.py &
+  uv run main.py &
   TEST_APP_PID=$!
   echo "PID=${TEST_APP_PID}"
   jobs
