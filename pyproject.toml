@@ -56,3 +56,6 @@ skips = ["B104"]
 
 [tool.uv.sources]
 flask-mqtt = { git = "https://github.com/stlehmann/Flask-MQTT.git", rev = "v1.2.0" }
+
+[tool.uv]
+python-preference = "system"
