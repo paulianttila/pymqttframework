@@ -40,7 +40,7 @@ run_tests() {
   export PYTHONPATH=${PYTHONPATH}:${PWD}/src/tests/integration/
 
   # run tests
-  python -m pytest --log-cli-level=INFO src/tests/
+  uv tool run --from tavern tavern-ci src/tests/integration/integration-tests.tavern.yaml
 }
 
 clean_up() {
