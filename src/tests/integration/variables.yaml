@@ -1,0 +1,15 @@
+---
+name: common variables
+description: Common variables for all tests
+
+variables:
+  mqtt:
+    host: 'localhost'
+    port: 1884
+    username: 'tavern'
+    password: 'tavern123'
+    ca_certs: 'tests/integration/mosquitto/cert/ca/ca.crt'
+    certfile: 'tests/integration/mosquitto/cert/client/client.crt'
+    keyfile: 'tests/integration/mosquitto/cert/client/client.key'
+  rest:
+    url: localhost:8080

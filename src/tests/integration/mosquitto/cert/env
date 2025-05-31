@@ -1,0 +1,19 @@
+# CN: CommonName
+# OU: OrganizationalUnit
+# O: Organization
+# L: Locality
+# S: StateOrProvinceName
+# C: CountryName
+
+CN_CA="MQTT Root CA"
+CN_SERVER="MQTT Server"
+CN_CLIENT="MQTT Client"
+C="FI"
+O="Pauli Anttila"
+
+SERVER_ALTNAMES="DNS:localhost,IP:127.0.0.1"
+
+CERT_VALID_DAYS=10000
+
+ROOT_KEY_LEN=2048
+KEY_LEN=2048

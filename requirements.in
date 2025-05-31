@@ -1,0 +1,11 @@
+# pip install pip-tools
+# pip-compile requirements.in
+
+Flask
+cheroot
+APScheduler
+#Flask-MQTT
+#Flask-MQTT with client-id fix
+git+https://github.com/stlehmann/Flask-MQTT.git@master
+prometheus-flask-exporter
+Flask-Limiter

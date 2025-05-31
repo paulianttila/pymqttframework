@@ -1,0 +1,18 @@
+[project]
+name = "pymqttframework"
+version = "3.0.0"
+description = "Simple application framework for MQTT based applications"
+readme = "README.md"
+authors = [
+    { name = "Pauli Anttila", email = "pauli.anttila@gmail.com" }
+]
+requires-python = ">=3.13"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]

@@ -1,0 +1,154 @@
+---
+
+test_name: Make sure MQTT framework works
+
+includes:
+  - !include variables.yaml
+
+paho-mqtt: &mqtt_spec
+  client:
+    transport: tcp
+    client_id: '{mqtt.username}'
+  connect:
+    host: '{mqtt.host}'
+    port: !int '{mqtt.port:d}'
+    timeout: 3
+  auth:
+    username: '{mqtt.username}'
+    password: '{mqtt.password}'
+  tls:
+    ca_certs: '{mqtt.ca_certs}'
+    certfile: '{mqtt.certfile}'
+    keyfile: '{mqtt.keyfile}'
+
+stages:
+  - name: test basic MQTT messaging
+    mqtt_publish:
+      topic: 'myapp/request'
+      payload: 'test_message1'
+    mqtt_response:
+      topic: 'myapp/response'
+      payload: 'test_message1'
+      timeout: 3
+
+  - name: test callback function
+    mqtt_publish:
+      topic: 'myapp/callback_request'
+      payload: '12345678'
+    mqtt_response:
+      topic: 'myapp/callback_response'
+      payload: '12345678' 
+      timeout: 3
+
+  - name: test updateNow triggering
+    mqtt_publish:
+      topic: 'myapp/updateNow'
+      payload: 'true'
+    mqtt_response:
+      topic: 'myapp/manual_trigger_counter_updated'
+      payload: 'manual'
+      timeout: 3
+
+  - name: test configuration variable
+    mqtt_publish:
+      topic: 'myapp/config_variable_request'
+      payload: 'true'
+    mqtt_response:
+      topic: 'myapp/config_variable_response'
+      payload: '123456'
+      timeout: 3
+
+  - name: test updateNow triggering value
+    mqtt_publish:
+      topic: 'myapp/updateNow'
+      payload: 'true'
+    mqtt_response:
+      topic: 'myapp/manual_trigger_counter'
+      payload: '2'
+      timeout: 3
+
+  - name: test interval triggering value
+    mqtt_publish:
+      topic: 'myapp/dummy'
+      payload: 'true'
+    mqtt_response:
+      topic: 'myapp/interval_trigger_counter_updated'
+      payload: 'interval' 
+      timeout: 30
+
+  - name: test cron triggering value
+    mqtt_publish:
+      topic: 'myapp/dummy'
+      payload: 'true'
+    mqtt_response:
+      topic: 'myapp/cron_trigger_counter_updated'
+      payload: 'cron' 
+      timeout: 30
+
+  - name: test jobs interface
+    request:
+      url: 'http://{rest.url}/jobs'
+      method: GET
+      timeout: 3
+    response:
+      status_code: 200
+
+  - name: test healthy check OK
+    request:
+      url: 'http://{rest.url}/healthy'
+      method: GET
+      timeout: 3
+    response:
+      status_code: 200
+
+  - name: set healthy check to be failed
+    mqtt_publish:
+      topic: 'myapp/healthy_check_state'
+      payload: 'False'
+    mqtt_response:
+      topic: 'myapp/healthy_check_state_response'
+      payload: 'False' 
+      timeout: 3
+    delay_after: 2 
+
+  - name: test healthy check Failure
+    request:
+      url: 'http://{rest.url}/healthy'
+      method: GET
+      timeout: 3
+    response:
+      status_code: 500
+
+  - name: test custom url support
+    request:
+      url: 'http://{rest.url}/json'
+      method: GET
+      timeout: 3
+    response:
+      status_code: 200
+      json:
+        id: 1
+        message: 'json example data'
+
+  - name: test rest update
+    request:
+      url: 'http://{rest.url}/update'
+      method: GET
+      timeout: 3
+    response:
+      status_code: 200
+    mqtt_response:
+      topic: 'myapp/manual_trigger_counter'
+      payload: '3'
+      timeout: 3
+    delay_after: 5 
+
+  - name: test metrics
+    request:
+      url: 'http://{rest.url}/metrics'
+      method: GET
+      timeout: 3
+    response:
+      status_code: 200
+      verify_response_with:
+        function: testing_utils:check_metrics
