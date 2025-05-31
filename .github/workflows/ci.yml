@@ -68,7 +68,7 @@ jobs:
 
       - name: Run unit and integration tests
         run: |
-          bash tests/integration/mosquitto/run_mosquitto.sh
+          bash src/tests/integration/mosquitto/run_mosquitto.sh
           sleep 3
           bash run_tests.sh
 
