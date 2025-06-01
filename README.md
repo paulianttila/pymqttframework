@@ -47,7 +47,9 @@ Application can extend variables by the configuration.
 
 ## Configuration files
 
-If environment variable *CFG_CONFIG_FILE* is defined, configuration variables are loaded from the file and then overrided by the environment variables if exists.
+Configuration file name can be given from framework run/start function.
+If file name is not given, framework tries to read environment variable *CFG_CONFIG_FILE*.
+If configuration file is defined, configuration variables are loaded from the file and then overrided by the environment variables if exists.
 In files, variable names should be without CFG_ prefix.
 Py, toml and json formatted files are supported.
 Format is recognized from the file type suffix.
