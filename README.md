@@ -47,7 +47,9 @@ Application can extend variables by the configuration.
 
 ## Configuration files
 
-If environment variable *CFG_CONFIG_FILE* is defined, configuration variables are loaded from the file and then overrided by the environment variables if exists.
+Configuration file name can be given from framework run/start function.
+If file name is not given, framework tries to read environment variable *CFG_CONFIG_FILE*.
+If configuration file is defined, configuration variables are loaded from the file and then overrided by the environment variables if exists.
 In files, variable names should be without CFG_ prefix.
 Py, toml and json formatted files are supported.
 Format is recognized from the file type suffix.
@@ -82,10 +84,10 @@ Simple test application (app.py).
 See more features from integration test app in tests/integration/testapp folder.
 
 ```python
-from mqtt_framework import Framework
-from mqtt_framework import Config
-from mqtt_framework.callbacks import Callbacks
-from mqtt_framework.app import TriggerSource
+from pymqttframework import Framework
+from pymqttframework import Config
+from pymqttframework.callbacks import Callbacks
+from pymqttframework.app import TriggerSource
 
 class MyConfig(Config):
 

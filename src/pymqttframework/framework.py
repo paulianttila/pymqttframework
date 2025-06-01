@@ -158,9 +158,11 @@ class Framework:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
 
-    def _load_config(self, config: Config) -> None:
+    def _load_config(self, config: Config, config_file: str | None = None) -> None:
         self._flask.config.from_object(config)
-        config_file = os.getenv("CFG_CONFIG_FILE", None)
+        if config_file is None:
+            config_file = os.getenv("CFG_CONFIG_FILE", None)
+
         if config_file is not None:
             if config_file.endswith(".toml"):
                 self._flask.config.from_file(config_file, load=tomllib.load, text=False)
@@ -229,12 +231,14 @@ class Framework:
         else:
             return CronTrigger.from_crontab(cron_schedule)
 
-    def _start(self, app: App, config: Config, blocked=False) -> int:
+    def _start(
+        self, app: App, config: Config, blocked=False, config_file: str | None = None
+    ) -> int:
         if self._started:
             self._flask.logger.debug("Application already started")
             return 1
 
-        self._load_config(config)
+        self._load_config(config=config, config_file=config_file)
 
         if blocked:
             self._install_signal_handlers()
@@ -438,19 +442,22 @@ class Framework:
     # Public methods
     ###########################################################
 
-    def run(self, app: App, config: Config) -> int:
+    def run(self, app: App, config: Config, config_file: str | None = None) -> int:
         """
         Start the application and block until it is stopped
         by a signal or shutdown() is called
 
         :param app: The application to run
         :param config: The configuration to use
+        :param config_file: The configuration file to use
         :return: 0 if application was started successfully, \
                  1 if application was already started
         """
-        return self.start(app, config, blocked=True)
+        return self.start(app=app, config=config, blocked=True, config_file=config_file)
 
-    def start(self, app: App, config: Config, blocked=False) -> int:
+    def start(
+        self, app: App, config: Config, blocked=False, config_file: str | None = None
+    ) -> int:
         """
         Start the application
 
@@ -458,11 +465,14 @@ class Framework:
         :param config: The configuration to use
         :param blocked: If True, block until application is stopped \
                         by a signal or shutdown() is called
+        :param config_file: The configuration file to use
         :return: 0 if application was started successfully, \
                  1 if application was already started
         """
         with self._lock:
-            if retval := self._start(app, config, blocked):
+            if retval := self._start(
+                app=app, config=config, blocked=blocked, config_file=config_file
+            ):
                 return retval
         if blocked:
             self._do_wait()
