@@ -13,8 +13,6 @@ jobs:
     environment:
       # Create this environment in the GitHub repository under Settings -> Environments
       name: release
-    permissions:
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
