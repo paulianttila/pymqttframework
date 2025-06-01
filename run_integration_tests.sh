@@ -32,7 +32,7 @@ start_test_app() {
   TEST_APP_PID=$!
   echo "PID=${TEST_APP_PID}"
   jobs
-  cd ../../../..
+  cd ../../..
 }
 
 run_tests() {
