@@ -20,30 +20,30 @@ Purpose of the library is to simplify the application and minimize the boilerpla
 
 ## Environament variables
 
-Following environament varibles are supported by the framework.
+Following environment varibles are supported by the framework.
 Application can extend variables by the configuration.
 
-| **Variable**               | **Default**     | **Descrition**                                                                                                 |
-|----------------------------|-----------------|----------------------------------------------------------------------------------------------------------------|
-| CFG_APP_NAME               |                 | Name of the app.                                                                                               |
-| CFG_LOG_LEVEL              | INFO            | Logging level: CRITICAL, ERROR, WARNING, INFO or DEBUG.                                                        |
-| CFG_UPDATE_CRON_SCHEDULE   |                 | Update interval in cron format. Both Unix (5 elements) and Spring (6 elements) formats are supported.          |
-| CFG_UPDATE_INTERVAL        | 60              | Update interval in seconds. 0 = disabled                                                                       |
-| CFG_DELAY_BEFORE_FIRST_TRY | 5               | Delay before first try in seconds.                                                                             |
-| CFG_MQTT_CLIENT_ID         | <CFG_APP_NAME>  | the unique client id string used when connecting to the broker.                                                |
-| CFG_MQTT_BROKER_URL        | 127.0.0.1       | MQTT broker URL that should be used for the connection.                                                        |
-| CFG_MQTT_BROKER_PORT       | 1883            | MQTT broker port that should be used for the connection.                                                       |
-| CFG_MQTT_USERNAME          | None            | MQTT broker username used for authentication. If none is provided authentication is disabled.                  |
-| CFG_MQTT_PASSWORD          | None            | MQTT broker password used for authentication.                                                                  |
-| CFG_MQTT_TLS_ENABLED       | False           | Enable TLS.                                                                                                    |
-| CFG_MQTT_TLS_CA_CERTS      | None            | A string path to the Certificate Authority certificate files that are to be treated as trusted by this client. |
-| CFG_MQTT_TLS_CERTFILE      | None            | String pointing to the PEM encoded client certificate.                                                         |
-| CFG_MQTT_TLS_KEYFILE       | None            | String pointing to the PEM encoded client private key.                                                         |
-| CFG_MQTT_TLS_INSECURE      | False           | Configure verification of the server hostname in the server certificate.                                       |
-| CFG_MQTT_TOPIC_PREFIX      | <CFG_APP_NAME>/ | MQTT topic prefix.                                                                                             |
-| CFG_WEB_STATIC_DIR         | /web/static     | Directory name for static pages.                                                                               |
-| CFG_WEB_TEMPLATE_DIR       | /web/templates  | Directory name for templates.                                                                                  |
-
+| **Variable**               | **Default**     | **Descrition**                                                                                                                 |
+|----------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------|
+| CFG_APP_NAME               |                 | Name of the app.                                                                                                               |
+| CFG_CONFIG_FILE            | None            | Name of the configuration file. If defined, variables are loaded from the file and then overrided by the environment varibles. |
+| CFG_LOG_LEVEL              | INFO            | Logging level: CRITICAL, ERROR, WARNING, INFO or DEBUG.                                                                        |
+| CFG_UPDATE_CRON_SCHEDULE   |                 | Update interval in cron format. Both Unix (5 elements) and Spring (6 elements) formats are supported.                          |
+| CFG_UPDATE_INTERVAL        | 60              | Update interval in seconds. 0 = disabled                                                                                       |
+| CFG_DELAY_BEFORE_FIRST_TRY | 5               | Delay before first try in seconds.                                                                                             |
+| CFG_MQTT_CLIENT_ID         | <CFG_APP_NAME>  | the unique client id string used when connecting to the broker.                                                                |
+| CFG_MQTT_BROKER_URL        | 127.0.0.1       | MQTT broker URL that should be used for the connection.                                                                        |
+| CFG_MQTT_BROKER_PORT       | 1883            | MQTT broker port that should be used for the connection.                                                                       |
+| CFG_MQTT_USERNAME          | None            | MQTT broker username used for authentication. If none is provided authentication is disabled.                                  |
+| CFG_MQTT_PASSWORD          | None            | MQTT broker password used for authentication.                                                                                  |
+| CFG_MQTT_TLS_ENABLED       | False           | Enable TLS.                                                                                                                    |
+| CFG_MQTT_TLS_CA_CERTS      | None            | A string path to the Certificate Authority certificate files that are to be treated as trusted by this client.                 |
+| CFG_MQTT_TLS_CERTFILE      | None            | String pointing to the PEM encoded client certificate.                                                                         |
+| CFG_MQTT_TLS_KEYFILE       | None            | String pointing to the PEM encoded client private key.                                                                         |
+| CFG_MQTT_TLS_INSECURE      | False           | Configure verification of the server hostname in the server certificate.                                                       |
+| CFG_MQTT_TOPIC_PREFIX      | <CFG_APP_NAME>/ | MQTT topic prefix.                                                                                                             |
+| CFG_WEB_STATIC_DIR         | /web/static     | Directory name for static pages.                                                                                               |
+| CFG_WEB_TEMPLATE_DIR       | /web/templates  | Directory name for templates.                                                                                                  |
 ## MQTT topics
 
 Following MQTT topics are available by default from the framework.

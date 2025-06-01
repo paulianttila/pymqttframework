@@ -158,6 +158,9 @@ class Framework:
 
     def _load_config(self, config: Config) -> None:
         self._flask.config.from_object(config)
+        config_file = os.getenv("CFG_CONFIG_FILE", None)
+        if config_file is not None:
+            self._flask.config.from_pyfile(config_file)
         self._flask.config.from_prefixed_env("CFG")
 
         if self._flask.config["LOG_LEVEL"] in ["TRACE "]:
