@@ -82,10 +82,10 @@ Simple test application (app.py).
 See more features from integration test app in tests/integration/testapp folder.
 
 ```python
-from mqtt_framework import Framework
-from mqtt_framework import Config
-from mqtt_framework.callbacks import Callbacks
-from mqtt_framework.app import TriggerSource
+from pymqttframework import Framework
+from pymqttframework import Config
+from pymqttframework.callbacks import Callbacks
+from pymqttframework.app import TriggerSource
 
 class MyConfig(Config):
 
