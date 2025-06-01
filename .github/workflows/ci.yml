@@ -69,7 +69,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          bash src/tests/integration/mosquitto/run_mosquitto.sh
+          bash tests/integration/mosquitto/run_mosquitto.sh
           sleep 3
           bash run_integration_tests.sh
 
