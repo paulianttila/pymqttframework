@@ -1,6 +1,6 @@
 [project]
 name = "pymqttframework"
-version = "3.0.0"
+version = "3.0.1"
 description = "Simple application framework for MQTT based applications"
 readme = "README.md"
 authors = [
