@@ -2,9 +2,11 @@
 
 import contextlib
 import importlib.metadata
+import json
 import os
 import signal
 import threading
+import tomllib
 import logging
 import time
 from typing import Callable
@@ -160,7 +162,12 @@ class Framework:
         self._flask.config.from_object(config)
         config_file = os.getenv("CFG_CONFIG_FILE", None)
         if config_file is not None:
-            self._flask.config.from_pyfile(config_file)
+            if config_file.endswith(".toml"):
+                self._flask.config.from_file(config_file, load=tomllib.load, text=False)
+            elif config_file.endswith(".json"):
+                self._flask.config.from_file(config_file, load=json.load)
+            else:
+                self._flask.config.from_pyfile(config_file)
         self._flask.config.from_prefixed_env("CFG")
 
         if self._flask.config["LOG_LEVEL"] in ["TRACE "]:
