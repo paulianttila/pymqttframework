@@ -15,7 +15,7 @@ dependencies = [
     "deprecated==1.2.18",
     "flask==3.1.1",
     "flask-limiter==3.12",
-    "flask-mqtt",
+    "flask-mqtt==1.2.1",
     "importlib-resources==6.5.2",
     "itsdangerous==2.2.0",
     "jaraco-functools==4.1.0",
@@ -27,7 +27,7 @@ dependencies = [
     "more-itertools==10.7.0",
     "ordered-set==4.1.0",
     "packaging==24.2",
-    "paho-mqtt==2.1.0",
+    "paho-mqtt==1.6.1",
     "prometheus-client==0.22.0",
     "prometheus-flask-exporter==0.23.2",
     "pygments==2.19.1",
@@ -53,9 +53,6 @@ dev = [
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "dist", "build", "setup.py"]
 skips = ["B104"]
-
-[tool.uv.sources]
-flask-mqtt = { git = "https://github.com/stlehmann/Flask-MQTT.git", rev = "v1.2.0" }
 
 [tool.uv]
 python-preference = "system"
