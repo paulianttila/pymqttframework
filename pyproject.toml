@@ -15,7 +15,7 @@ dependencies = [
     "deprecated==1.2.18",
     "flask==3.1.1",
     "flask-limiter==3.12",
-    "flask-mqtt",
+    "flask-mqtt==1.2.1",
     "importlib-resources==6.5.2",
     "itsdangerous==2.2.0",
     "jaraco-functools==4.1.0",
@@ -53,9 +53,6 @@ dev = [
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "dist", "build", "setup.py"]
 skips = ["B104"]
-
-[tool.uv.sources]
-flask-mqtt = { git = "https://github.com/stlehmann/Flask-MQTT.git", rev = "v1.2.0" }
 
 [tool.uv]
 python-preference = "system"
