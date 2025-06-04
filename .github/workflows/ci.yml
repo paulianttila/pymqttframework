@@ -43,10 +43,10 @@ jobs:
           source .venv/bin/activate
           uv sync
           uv pip install -e .
-          uv tool install ruff
-          uv tool install black
-          uv tool install bandit
-          uv tool install tavern
+          uv tool install ruff==0.11.12
+          uv tool install black==25.1.0
+          uv tool install bandit==1.8.3
+          uv tool install tavern==2.15.0
 
       - name: Run Ruff
         run: uv tool run ruff check --output-format=github .
