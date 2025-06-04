@@ -238,6 +238,11 @@ class Framework:
             self._flask.logger.debug("Application already started")
             return 1
 
+        self._flask.logger.critical(
+            f"{app.__class__.__name__} version {app.get_version()} starting, "
+            f"framework version {__version__} "
+        )
+
         self._load_config(config=config, config_file=config_file)
 
         if blocked:
@@ -297,11 +302,6 @@ class Framework:
             + timedelta(seconds=self._flask.config["DELAY_BEFORE_FIRST_TRY"])
         )
         self._start_flask()
-        self._flask.logger.critical(
-            f"{app.__class__.__name__} version {app.get_version()} started, "
-            f"framework version {__version__} "
-        )
-
         self._scheduler.start()
         self._started = True
         return 0
