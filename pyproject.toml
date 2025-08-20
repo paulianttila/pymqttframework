@@ -13,7 +13,7 @@ dependencies = [
     "cheroot==10.0.1",
     "click==8.2.1",
     "deprecated==1.2.18",
-    "flask==3.1.1",
+    "flask==3.1.2",
     "flask-limiter==3.12",
     "flask-mqtt==1.2.1",
     "importlib-resources==6.5.2",
