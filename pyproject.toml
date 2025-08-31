@@ -21,7 +21,7 @@ dependencies = [
     "jaraco-functools==4.2.1",
     "jinja2==3.1.6",
     "limits==5.5.0",
-    "markdown-it-py==3.0.0",
+    "markdown-it-py==4.0.0",
     "markupsafe==3.0.2",
     "mdurl==0.1.2",
     "more-itertools==10.7.0",
