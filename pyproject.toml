@@ -24,7 +24,7 @@ dependencies = [
     "markdown-it-py==4.0.0",
     "markupsafe==3.0.2",
     "mdurl==0.1.2",
-    "more-itertools==10.7.0",
+    "more-itertools==10.8.0",
     "ordered-set==4.1.0",
     "packaging==25.0",
     "paho-mqtt==1.6.1",
