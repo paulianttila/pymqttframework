@@ -27,7 +27,7 @@ dependencies = [
     "more-itertools==10.8.0",
     "ordered-set==4.1.0",
     "packaging==25.0",
-    "paho-mqtt==1.6.1",
+    "paho-mqtt==2.1.0",
     "prometheus-client==0.23.1",
     "prometheus-flask-exporter==0.23.2",
     "pygments==2.19.2",
