@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "apscheduler==3.11.2",
+    "apscheduler==3.11.3",
     "blinker==1.9.0",
     "cheroot==11.1.2",
     "click==8.4.1",
