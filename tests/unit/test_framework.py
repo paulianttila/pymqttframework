@@ -172,14 +172,14 @@ def test_rest_endpoints() -> None:
 def test_mqtt_publishing() -> None:
     fw = Framework()
     fw._flask.config["MQTT_TOPIC_PREFIX"] = "app/"
-    fw._mqtt = MagicMock()
+    fw._mqtt._mqtt = MagicMock()
 
     # Successful publish
     fw._publish_value_to_mqtt_topic("data", "value123", retain=True)
-    fw._mqtt.publish.assert_called_once_with("app/data", "value123", retain=True)
+    fw._mqtt._mqtt.publish.assert_called_once_with("app/data", "value123", retain=True)
 
     # Failed publish logs error without raising
-    fw._mqtt.publish.side_effect = RuntimeError("broker disconnected")
+    fw._mqtt._mqtt.publish.side_effect = RuntimeError("broker disconnected")
     with patch.object(fw._flask.logger, "error") as mock_log:
         fw._publish_value_to_mqtt_topic("data", "value123")
         mock_log.assert_called_once()
@@ -233,11 +233,12 @@ def test_mqtt_connect_handler() -> None:
     fw._flask.config["MQTT_TOPIC_PREFIX"] = "app/"
     app = DummyApp()
     fw._app = app
-    fw._mqtt = MagicMock()
 
-    with patch.object(fw, "_publish_value_to_mqtt_topic") as mock_pub:
+    with patch.object(fw._mqtt, "publish") as mock_pub:
         fw._mqtt_handle_connect(None, None, None, 0)
-        mock_pub.assert_called_with(Framework.TOPIC_STATUS, "online", True)
+        mock_pub.assert_called_with(
+            Framework.TOPIC_STATUS, "online", prefix="app/", retain=True
+        )
         assert app.subscribed is True
 
 
@@ -306,7 +307,7 @@ def test_start_and_shutdown_lifecycle() -> None:
             patch.object(fw, "_stop_flask"),
             patch.object(fw._scheduler, "shutdown"),
             patch.object(fw._mqtt, "unsubscribe_all"),
-            patch.object(fw._mqtt, "_disconnect"),
+            patch.object(fw._mqtt, "disconnect"),
             patch.object(fw, "_publish_value_to_mqtt_topic"),
         ):
             fw.shutdown()
@@ -326,7 +327,7 @@ def test_shutdown_with_exception_in_app_stop() -> None:
         patch.object(fw, "_stop_flask") as mock_stop_flask,
         patch.object(fw._scheduler, "shutdown") as mock_sched_sd,
         patch.object(fw._mqtt, "unsubscribe_all"),
-        patch.object(fw._mqtt, "_disconnect"),
+        patch.object(fw._mqtt, "disconnect"),
         patch.object(fw, "_publish_value_to_mqtt_topic"),
     ):
         fw.shutdown()
