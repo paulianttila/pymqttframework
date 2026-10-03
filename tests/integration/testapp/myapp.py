@@ -57,7 +57,7 @@ class MyApp(App):
                 "config_variable_response", self.config["TEST_VARIABLE"]
             )
         elif topic == "healthy_check_state":
-            self.healthy_check_state = message.lower() in ("true")
+            self.healthy_check_state = message.lower() in {"true", "1", "yes"}
             self.publish_value_to_mqtt_topic(
                 "healthy_check_state_response", self.healthy_check_state
             )

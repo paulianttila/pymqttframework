@@ -25,10 +25,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          
-      - name: Switch to Current Branch
-        run: git checkout ${{ env.BRANCH }}
-              
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6
         with:
@@ -57,6 +54,9 @@ jobs:
       - name: Run Bandit scan
         run: uv tool run bandit -c pyproject.toml -r .
 
+      - name: Run Mypy
+        run: uv run mypy src
+
       - name: Install Mosquitto
         run: |
           sudo apt-get install -y mosquitto
@@ -66,10 +66,7 @@ jobs:
           uv run pytest -v
 
       - name: Run integration tests
-        run: |
-          bash tests/integration/mosquitto/run_mosquitto.sh
-          sleep 3
-          bash run_integration_tests.sh
+        run: bash run_integration_tests.sh
 
       - name: Run code coverage
         run: |
