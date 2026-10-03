@@ -10,23 +10,23 @@ Purpose of the library is to simplify the application and minimize the boilerpla
 
 ## Features
 
-* Relaiable MQTT connection and simple data publish and subscribe functionality
+* Reliable MQTT connection and simple data publish and subscribe functionality
 * Interval and cron scheduler to e.g. update data to MQTT periodically
 * Environment variable based configuration
-* REST interface (e.g. /healtcheck)
+* REST interface (e.g. /healthy)
 * Prometheus metrics (/metrics)
 * Easy logging
 * And much more ...
 
-## Environament variables
+## Environment variables
 
-Following environment varibles are supported by the framework.
+Following environment variables are supported by the framework.
 Application can extend variables by the configuration.
 
-| **Variable**               | **Default**     | **Descrition**                                                                                                 |
+| **Variable**               | **Default**     | **Description**                                                                                                |
 |----------------------------|-----------------|----------------------------------------------------------------------------------------------------------------|
 | CFG_APP_NAME               |                 | Name of the app.                                                                                               |
-| CFG_CONFIG_FILE            | None            | Name of the configuration file. See details from section [Configuration files](#h2-configuration-files).       |
+| CFG_CONFIG_FILE            | None            | Name of the configuration file. See details from section [Configuration files](#configuration-files).          |
 | CFG_LOG_LEVEL              | INFO            | Logging level: CRITICAL, ERROR, WARNING, INFO or DEBUG.                                                        |
 | CFG_UPDATE_CRON_SCHEDULE   |                 | Update interval in cron format. Both Unix (5 elements) and Spring (6 elements) formats are supported.          |
 | CFG_UPDATE_INTERVAL        | 60              | Update interval in seconds. 0 = disabled                                                                       |
@@ -42,6 +42,8 @@ Application can extend variables by the configuration.
 | CFG_MQTT_TLS_KEYFILE       | None            | String pointing to the PEM encoded client private key.                                                         |
 | CFG_MQTT_TLS_INSECURE      | False           | Configure verification of the server hostname in the server certificate.                                       |
 | CFG_MQTT_TOPIC_PREFIX      | <CFG_APP_NAME>/ | MQTT topic prefix.                                                                                             |
+| CFG_WEB_HOST               | 0.0.0.0         | Web server bind address.                                                                                       |
+| CFG_WEB_PORT               | 5000            | Web server port.                                                                                               |
 | CFG_WEB_STATIC_DIR         | /web/static     | Directory name for static pages.                                                                               |
 | CFG_WEB_TEMPLATE_DIR       | /web/templates  | Directory name for templates.                                                                                  |
 
@@ -49,7 +51,7 @@ Application can extend variables by the configuration.
 
 Configuration file name can be given from framework run/start function.
 If file name is not given, framework tries to read environment variable *CFG_CONFIG_FILE*.
-If configuration file is defined, configuration variables are loaded from the file and then overrided by the environment variables if exists.
+If configuration file is defined, configuration variables are loaded from the file and then overridden by the environment variables if exists.
 In files, variable names should be without CFG_ prefix.
 Py, toml and json formatted files are supported.
 Format is recognized from the file type suffix.
@@ -59,20 +61,20 @@ If file type is not toml or json, file is loaded as py file.
 
 Following MQTT topics are available by default from the framework.
 
-| **Topic**                | **Descrition**                                                                   |
+| **Topic**                | **Description**                                                                  |
 |--------------------------|----------------------------------------------------------------------------------|
-| <app prefix>/updateNow   | Do immidiate update. Call do_update method from the app.                         |
+| <app prefix>/updateNow   | Do immediate update. Call do_update method from the app.                         |
 | <app prefix>/setLogLevel | Set log level. Supported values: TRACE, DEBUG, INFO, WARNING, ERROR or CRITICAL. |
 
 ## REST interface
 
 Following default API is provided by the framework.
 
-| **Path**            | Method | **Descrition**                           |
+| **Path**            | Method | **Description**                          |
 |---------------------|--------|------------------------------------------|
-| <host:port>/healthy | GET    | Do healthy check.                        |
-| <host:port>/update  | GET    | Call app do_update function immidiately. |
-| <host:port>/jobs    | GET    | Return job sceduling in json format.     |
+| <host:port>/healthy | GET    | Do health check.                         |
+| <host:port>/update  | GET    | Call app do_update function immediately. |
+| <host:port>/jobs    | GET    | Return job scheduling in json format.    |
 
 ## Prometheus metrics
 

@@ -25,7 +25,7 @@ class App(Protocol):
         ...
 
     def subscribe_to_mqtt_topics(self) -> None:
-        """Subscribe to all nesessary MQTT topics (without app prefix)"""
+        """Subscribe to all necessary MQTT topics (without app prefix)"""
         ...
 
     def mqtt_message_received(self, topic: str, message: str) -> None:
@@ -35,7 +35,7 @@ class App(Protocol):
         ...
 
     def do_healthy_check(self) -> bool:
-        """Do healt check. Return True for OK"""
+        """Do health check. Return True for OK"""
         ...
 
     def do_update(self, trigger_source: TriggerSource) -> None:

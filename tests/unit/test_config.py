@@ -20,6 +20,7 @@ def test_config():
     assert myconfig.LOG_LEVEL == "INFO"
     assert myconfig.UPDATE_INTERVAL == 60
     assert myconfig.DELAY_BEFORE_FIRST_TRY == 5
+    assert myconfig.WEB_HOST == "0.0.0.0"
     assert myconfig.WEB_PORT == 5000
     assert myconfig.WEB_STATIC_DIR == "/web/static"
     assert myconfig.WEB_TEMPLATE_DIR == "/web/templates"

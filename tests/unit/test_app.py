@@ -20,7 +20,7 @@ class MyApp:
     def do_healthy_check(self) -> bool:
         return True
 
-    def do_update(self) -> None:
+    def do_update(self, trigger_source) -> None:
         pass
 
 

@@ -1,12 +1,13 @@
+from collections.abc import Callable, Mapping
 import logging
-from typing import Callable, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from prometheus_client import CollectorRegistry
 
 
 @runtime_checkable
 class Callbacks(Protocol):
-    def get_config(self) -> dict:
+    def get_config(self) -> Mapping[str, Any]:
         """Provide application config"""
         ...
 
@@ -21,16 +22,19 @@ class Callbacks(Protocol):
     def add_url_rule(
         self,
         rule: str,
-        endpoint=None,
-        view_func=None,
-        provide_automatic_options=None,
-        **options,
+        endpoint: str | None = None,
+        view_func: Callable | None = None,
+        provide_automatic_options: bool | None = None,
+        **options: Any,
     ) -> None:
         """Add custom url rules"""
         ...
 
     def publish_value_to_mqtt_topic(
-        self, topic: str, value: str | bytes | bytearray | int | float, retain=False
+        self,
+        topic: str,
+        value: str | bytes | bytearray | int | float,
+        retain: bool = False,
     ) -> None:
         """Publish data to MQTT topic"""
         ...
