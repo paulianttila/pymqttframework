@@ -142,7 +142,13 @@ class MqttManager:
         fulltopic = self.to_full_topic(topic, prefix)
         self._logger.debug(f"Publish to topic '{fulltopic}' retain {retain}: {value!r}")
         try:
-            self._mqtt.publish(fulltopic, value, retain=retain)
+            res = self._mqtt.publish(fulltopic, value, retain=retain)
+            result = getattr(res, "rc", res[0] if isinstance(res, tuple) else 0)
+            if result != 0:
+                self._logger.error(
+                    f"Failed to publish to MQTT topic '{fulltopic}': MQTT error code {result}"
+                )
+                return
             self._metrics.mqtt_messages_sent.inc()
         except Exception as e:
             self._logger.error(f"Failed to publish to MQTT topic '{fulltopic}': {e}")

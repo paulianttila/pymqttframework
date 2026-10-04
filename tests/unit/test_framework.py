@@ -174,15 +174,26 @@ def test_mqtt_publishing() -> None:
     fw._flask.config["MQTT_TOPIC_PREFIX"] = "app/"
     fw._mqtt._mqtt = MagicMock()
 
-    # Successful publish
+    # Successful publish (return code 0)
+    fw._mqtt._mqtt.publish.return_value = (0, 1)
     fw._publish_value_to_mqtt_topic("data", "value123", retain=True)
     fw._mqtt._mqtt.publish.assert_called_once_with("app/data", "value123", retain=True)
+    assert fw._metrics.mqtt_messages_sent._value.get() == 1.0
 
-    # Failed publish logs error without raising
+    # Non-zero return code (e.g. MQTT_ERR_NO_CONN = 4) logs error and does not increment
+    fw._mqtt._mqtt.publish.return_value = (4, 2)
+    with patch.object(fw._flask.logger, "error") as mock_log:
+        fw._publish_value_to_mqtt_topic("data", "value123")
+        mock_log.assert_called_once()
+        assert "MQTT error code 4" in mock_log.call_args[0][0]
+        assert fw._metrics.mqtt_messages_sent._value.get() == 1.0
+
+    # Failed publish with exception logs error without raising and does not increment
     fw._mqtt._mqtt.publish.side_effect = RuntimeError("broker disconnected")
     with patch.object(fw._flask.logger, "error") as mock_log:
         fw._publish_value_to_mqtt_topic("data", "value123")
         mock_log.assert_called_once()
+        assert fw._metrics.mqtt_messages_sent._value.get() == 1.0
 
 
 def test_mqtt_message_received_dispatching() -> None:

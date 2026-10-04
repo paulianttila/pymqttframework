@@ -5,6 +5,7 @@ from pymqttframework.server import WebServer
 
 def test_server_routes_and_metrics() -> None:
     server = WebServer()
+    server.init_limiter()
     registry = CollectorRegistry()
     server.init_metrics(registry)
 
@@ -45,6 +46,13 @@ def test_server_routes_and_metrics() -> None:
     assert data == {"jobs": [{"id": "1", "name": "job"}]}
 
 
+def test_limiter_honors_config() -> None:
+    server = WebServer()
+    server.flask.config["RATELIMIT_ENABLED"] = False
+    server.init_limiter()
+    assert server._limiter.enabled is False
+
+
 def test_server_start_stop() -> None:
     server = WebServer()
     with patch("pymqttframework.server.WSGIServer") as mock_wsgi:
@@ -54,3 +62,12 @@ def test_server_start_stop() -> None:
         assert server._server_thread is not None
         server.stop()
         mock_instance.stop.assert_called_once()
+
+
+def test_server_stop_before_start() -> None:
+    server = WebServer()
+    server.stop()
+    with patch("pymqttframework.server.WSGIServer") as mock_wsgi:
+        server.start(host="127.0.0.1", port=9999)
+        mock_wsgi.assert_not_called()
+        assert server._server_thread is None

@@ -203,6 +203,7 @@ class Framework:
         )
 
         self._load_config(config=config, config_file=config_file)
+        self._server.init_limiter()
 
         if blocked:
             self._install_signal_handlers()
