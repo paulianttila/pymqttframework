@@ -25,15 +25,20 @@ class WebServer:
         self.flask = Flask(
             __name__, static_folder=static_folder, template_folder=template_folder
         )
+        self._lock = threading.Lock()
+        self._stop_requested = False
         self._limiter = Limiter(
             get_remote_address,
             default_limits=["1 per second"],
             storage_uri="memory://",
             strategy="fixed-window",
         )
-        self._limiter.init_app(self.flask)
         self._wsgi_server: WSGIServer | None = None
         self._server_thread: threading.Thread | None = None
+
+    def init_limiter(self) -> None:
+        """Initialize Flask-Limiter after application configuration is loaded."""
+        self._limiter.init_app(self.flask)
 
     def init_metrics(self, registry: CollectorRegistry) -> PrometheusMetrics:
         """Initialize Prometheus metrics exporter for Flask."""
@@ -86,23 +91,36 @@ class WebServer:
             **options,
         )
 
-    def _start_wsgi_server_blocking(self, host: str, port: int) -> None:
+    def _start_wsgi_server_blocking(self) -> None:
         self._trace_log("Start WSGIServer")
-        self._wsgi_server = WSGIServer((host, port), self.flask)
-        self._wsgi_server.start()
-        self._trace_log("WSGIServer stopped")
+        try:
+            with self._lock:
+                if self._stop_requested or self._wsgi_server is None:
+                    return
+                server = self._wsgi_server
+            server.start()
+        finally:
+            self._trace_log("WSGIServer stopped")
 
     def start(self, host: str, port: int) -> None:
         """Start WSGI server in a background thread."""
-        self._server_thread = threading.Thread(
-            target=self._start_wsgi_server_blocking, args=(host, port)
-        )
-        self._server_thread.start()
+        with self._lock:
+            if self._stop_requested:
+                return
+            self._wsgi_server = WSGIServer((host, port), self.flask)
+            self._server_thread = threading.Thread(
+                target=self._start_wsgi_server_blocking,
+                name="WebServer",
+            )
+            self._server_thread.start()
 
     def stop(self) -> None:
         """Stop WSGI server and join the background thread."""
         self._trace_log("Stop WSGIServer")
-        if self._wsgi_server is not None:
-            self._wsgi_server.stop()
-        if self._server_thread is not None:
-            self._server_thread.join()
+        with self._lock:
+            self._stop_requested = True
+            server = self._wsgi_server
+            if server is not None:
+                server.stop()
+        if self._server_thread is not None and self._server_thread.is_alive():
+            self._server_thread.join(timeout=5.0)
